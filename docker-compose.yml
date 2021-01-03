@@ -3,9 +3,9 @@ version: "3"
 services:
   jekyll:
     image: jekyll/jekyll:3.8
-    container_name: jekyll-serve
+    container_name: jekyll-serve-personalwebsite
     command: jekyll serve --watch --force_polling
     volumes:
-      - ./src/:/srv/jekyll
+      - .:/srv/jekyll
     ports:
       - "4000:4000"
