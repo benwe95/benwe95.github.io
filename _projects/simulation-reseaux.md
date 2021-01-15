@@ -5,10 +5,10 @@ tags: [réseaux, cisco packet tracer]
 order: 1
 ---
 
-## Contexte
+# Contexte
 L'objectif de ce travail était de simuler un réseau d'entreprise au moyen du logiciel Cisco Packet Tracer. Plusieurs contraintes, listées ci-dessous, ont dû être respectées afin de coller le plus possible à la réalité du terrain. De plus, toutes les configurations des machines simulées (routeurs, serveurs, switchs, ...) ont été faites via l'invite de commandes.
 
-## Description
+# Description
 
 <img alt="vue d'ensemble" src="/assets/images/simulation-reseaux.png" class="project-image"/>
 [Agrandir l'image](/assets/images/simulation-reseaux.png)
@@ -28,13 +28,13 @@ Ce projet a permis de mettre en pratique les connaissances théoriques du cours 
 * Un **tunnel VPN** pour relier les réseaux ECAM et ICHEC de façon sécurisée
 * Une **DMZ** (*DeMilitarized Zone*) pour améliorer la gestion des contrôles d’accès au réseau ECAM
 
-## Avis personnel
+# Avis personnel
 
 J'ai particulièrement apprécié ce travail d'une part parce qu'il s'agit d'un domaine que j'aime, à savoir les réseaux informatiques, mais également parce que je trouve que Cisco Packet Tracer est un excellent outil pour s'approprier les concepts théoriques de la matière.
 
 En plus de la mise en place et de la configuration des différents éléments du réseau, la possibilité de faire des simulations en temps réel (en envoyant un paquet depuis un émetteur vers un destinataire) et l'inspection du contenu des paquets permettent de visualiser concrètement le comportement du réseau.
 
-## Ressources
+# Ressources
 
 * Une [copie du rapport détaillé](/assets/files/rapport-simulation-reseaux.pdf) (25p) de ce travail
 * Le [fichier *.pka*](/assets/files/simulation-reseaux.pka) qui permet d'exécuter la simulation dans Cisco Packet Tracer.
