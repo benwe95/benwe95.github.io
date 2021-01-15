@@ -62,7 +62,8 @@ permalink: /
     <div class="section-content">
 
         <ul class="projects-grid">
-            {% for project in site.projects %}
+            {% assign projects_sorted = site.projects | sort: 'order' %}
+            {% for project in projects_sorted limit:4 %}
             <li>{% include projectCard.html project=project %}</li>
             {% endfor %}
         </ul>

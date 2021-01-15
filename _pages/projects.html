@@ -4,7 +4,8 @@ permalink: /projects
 <h1>Mes projets</h1>
 
 <ul class="projects-grid">
-    {% for project in site.projects %}
+    {% assign projects_sorted = site.projects | sort: 'order' %}
+    {% for project in projects_sorted %}
     <li>{% include projectCard.html project=project %}</li>
     {% endfor %}
 </ul>

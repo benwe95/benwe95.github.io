@@ -1,10 +1,11 @@
 ---
 title: Suite Notepad
-overview: Ecosystèmes web combinant un site principal avec Symfony, une SWA avec Angular et une application mobile avec ionic.
+overview: Ecosystème web combinant un site principal avec Symfony, une SPA avec Angular et une application mobile avec ionic.
 tags: [Symfony, Angular, Ionic, REST API, Full Stack, Mobile]
+order: 4
 ---
 
-## Contexte
+## Contexte {.project-section-title}
 
 Dans le cadre d'un cours de développement web nous avons réalisé une application destinée à enregistrer des notes quelconques. L'intérêt du projet est d'implémenter plusieurs services (un site principal, une SPA, une application mobile), qui accèdent tous à une base de données commune au moyen d'une API REST développée en backend.
 
