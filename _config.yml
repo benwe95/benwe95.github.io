@@ -26,6 +26,33 @@ theme: null
 # even if they begin with . _ # or ~
 include: [_pages]
 
+collections:
+  projects:
+    output: true
+    order:
+      - kapu.md
+      - simulation-reseaux.md
+      - notepad.md
+      - timelines.md
+      - website.md
+  recommandations:
+    output: true
+
+# These are default values attached to particular type of files
+defaults:
+  - scope:
+      path: _projects
+    values:
+      layout: project
+  - scope:
+      path: _recommandations
+    values:
+      layout: recommandation
+  - scope: 
+      path: ""
+    values:
+      layout: default
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

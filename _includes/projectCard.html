@@ -1,0 +1,22 @@
+<div class="card project-container">
+    <div class="project-header">
+        <h3 class="project-card-title">
+            <a class="project-card-link" href={{project.url}}>{{project.title | upcase}}</a></h3>
+    </div>
+
+    <div class="project-content">
+        <p class="project-overview">
+            {{project.overview}}
+        </p>
+    </div>
+
+    <div class="project-footer">
+        <ul class="project-tags">
+            {% for tag in project.tags limit: 5%}
+            <li class=" tag tag-item">
+                {{tag}}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<header id="navbar">
+    <nav class="navbar-container">
+
+        <ul class="navbar-menu">
+            <li class="navbar-logo">
+                <a href="/">Benoit Wery</a>
+            </li>
+            {% for item in site.data.navigation %}
+            <li class="navbar-item">
+                <a href={{item.link}} class="navbar-link" {% if page.url == {{item.link}} %}id="navbar-current-link"
+                    {% endif %}>
+                    {{item.name}}
+                </a>
+            </li>
+            {% endfor %}
+            <li class="navbar-toggle">
+                <a href="javascript:void(0)" class="navbar-toggle-link">
+                    MENU
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+</header>
+<script src="/assets/js/navbar.js"></script>

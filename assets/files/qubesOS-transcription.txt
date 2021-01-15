@@ -1,0 +1,217 @@
+====================== INTRODUCTION =============================
+(slide 2/13) -------------- TABLE DES  MATIERES -----------------
+
+Bonjour à tous, pour cette présentation du cours de virtualisation, j'ai choisi de vous parler de Qubes OS, qui est un système d'exploitation orienté sécurité.
+
+Dans un premier temps, afin de poser le contexte, je vais revenir brièvement sur quelques notions des systèmes d'exploitations et notamment certains points critiques en termes de sécurité ainsi que l'impact que cela représente.
+
+Ensuite, je vous présenterai le projet Qubes (ou Qubes OS) en donnant quelques informations générales sur ce que c'est et la philosphie qui se trouve derrière son fonctionnement
+
+Suite à cela, on entrera dans le coeur du sujet, je vous présenterai l'architecture du système, en me concentrant sur les aspects importants de la virtualisation
+
+Finalement avant de conclure, on regardera rapidement d'un point de vue sécurité en quoi est-ce que cet OS répond aux besoins attendus, ses éventuelles faiblesses et à qui il s'adresse.
+
+
+
+============================ OS =================================
+(slide 3/13) ----------------- RAPPELS --------------------------
+
+Pour un bref rappel, le système d'exploitation d'une machine est le logiciel chargé de faire le lien entre la partie hardware (les ressources matérielles de la machine) et la partie applicative (les logiciels). Il sert donc d'interface aux applications pour qu'elles puissent utiliser les ressources de la machine. L'OS est un système complexe qui comprend de nombreux composants permettant des fonctionnalités telles que : gérer la mémoire, gérer le systéme de fichiers, les périphériques (I/O et communication), lancer des programmes, exécution et gestion des processus, communication réseau, ...
+
+Un bon système d'exploitation sécurisé devrait être capable de protéger le système des attaques provenant: des périphériques, du réseau, des logiciels malveillants,.. et en cas de corruption d'un élément, il devrait idéalement être capable de le détecter et de limiter son impact sur le reste du système. 
+
+En effet, comme nous l'avons vu au cours de sécurité, l'une des préoccupations d'un logiciel malveillant est de pouvoir s'implenter de manière durable dans le système, notamment en cherchant se répliquer (dans les fichiers), à se propager. Le but étant d'obtenir le contrôle du système ou de le compromettre.
+
+Or, à l'heure actuelle où tout un chacun est en permanence connecté à Internet et utilise de manière intensive les ordinateurs, ceux-ci stockent une grande partie de la vie digitale des utilisateurs, dont des données confidentielles c'est pourquoi il est donc primordial que le système coeur, l'OS, soit le plus sécurisé possible pour préserver nos données. Les programmes étant toujours exécutés sour la supervision de l'OS, il est important de maintenir cet environnement d'execécution sûr. 
+
+
+(slide 4/13)---------------- POINTS CRITIQUES ------------------------
+
+(PROBLEMES)
+Parmi les problèmes liés à la sécurité des OS, on peut citer les suivants:
+
+1. le gros problème des OS est qu'il y a de nombreuses interactions entre tous les éléments du système et un manque d'isolement qui existe de manière générale. Par exemple,  une application A délivre des services à application B, ce qui peut permettre justement à une attaque sur un des éléments de facilement se répendre vers les autres et vers l'ensemble du système.
+
+Dans cette configuration, c'est bien souvent l'élément le plus vulnérable ou le plus difficile à sécurriser qui sera le maillon faible du système tout entier et le point d'entrée d'une attaque. 
+
+Autrement dit, les failles les plus facile à exploiter seront celles ciblées pour permettre à l'attaque de se propager et de compromettre éventuellement l'entiereté du système, le rendant ainsi inopérationnel.
+
+- Exemple: si le navigateur Internet est corrompu par un malware téléchargé, celui-ci peut se répendre pour contaminer le reste de l'OS
+
+Une des causes liée à ce problème d'isolement et de propagation est à la nature monolothique du kernel des OS traditionnels grand publique.
+
+Pour rappel, le kernel fournit des mécasmines d'abstraction du matériel, il propose aux logiciels des services via des API haut niveau, et ces services eux sont tous exécutés dans l'espace noyau. Or il y a peu de contrôle sur quelles applications peuvent utiliser quels services, la plupart sont accessibles directement à partir des applications qui ne sont pas forcément fiables, ce qui représente une grande surface d'attaque. On parle notamment de drivers pour les USB, le réseau,... qui sont autant de points d'entrées pour des attaques différentes possibles.
+De plus, ce noyau est souvent un très grand ensemble de codes complexes et de ce fait il est plus difficile à maintenir.
+
+Un exemple pour illustrer ce problème de propagation, on peut imaginer une macro comprise dans une pièce jointe pdf qui lorsqu'on va lire le pdf avec une application dédiée, va s'exécuter et va permettre au code malveillant d'accéder au carnet de contacts mail et va ensuite réussir à se propager en dehors du système grâce aux pilotes réseau qui lui sont accessibles. Tout cela est rendu possible notamment du à un manque de cloisonnement entre les services et les applications.
+
+Or, à priori, le lecteur pdf et le carnet devraient être des choses distinctes qui ne devraient pas pouvoir communiquer si facilement (ex: une application comme un navigateur web peut avoir besoin des fonctionnalités de réseau et de ce fait elle a accès aux pilotes/drivers. Rien n'empêche la communication de ces deux éléments. Une app fonctionne en faisant appel aux services d'une autre app, un fichier peut être exécuté par différentes apps,...)
+
+2. Un autre problème est la diversité des attaques possibles. Comme nous l'avons vu, à l'heure actuelle les malwares sont des logiciels qui peuvent être extêmeent complexes. Une attaque ou une infection peuvent donc être difficiles à détecter, que ce soit pour l'OS ou pour un anti-malware.
+ 
+
+(CONTRE-MESURES)
+Face à ces problèmes de sécurité, la plupart des OS ont une approche réactive qui consiste à proposer des mises à jour, faire des corrections d'erreurs, patcher des vulnérabilités détectées,... Autrement dit, on rattrape une erreur une fois qu'elle a été détectée. Or, il n'est pas rare que celle-ci ait déjà pu être exploitée.
+
+De plus l'installation d'un anti-malware n'est pas la solution à tout, loin de là. Il est important que le système en lui-même soit sécurisé.
+
+Malheureusement dans cette approche il n'est alors pas rare que le mal ait été commis avant d'être corrigé et que le système soit déjà corrompu. 
+
+
+
+====================== QUBES OS =========================
+(slide 5/13) ------------ INFOS GENERALES ---------------
+
+Aujourd'hui, les ordinateurs stockent une grande partie de la vie digitale des utilisateurs et il est donc primordial que le système coeur, l'OS, soit le plus sécurisé possible pour préserver nos données.
+Les logiciels malveillants cherchont souvent à voler des informations sur la machine, corrompre le système sous forme de chantage, ou modifier les données,...
+
+Ceci nous amène à Qubes OS qui un système d'exploitation gratuit, Open-source et orienté  sécurité avec une approche plus réfléchie.
+Le projet a été initié par Joanna et Rafal, deux chercheurs en sécurité informatique, avec leur petite équipe "the invisible things lab".
+Ils ont émis les bases du projet et commencé à travailler dessus fin 2009, pour sortir une première version stable officielle en 2012 et à l'heure actuelle nous en sommes à la version 4 depuis 2018.
+
+On verra que Qubes utilise un bon nombre de machines virtuelles, alors il faut noter qu'il ne s'agit pas d'un simple gestionnaire de machines et que ce n'est pas non plus une distribution linux. Qubes est un système qui utilise des technologies existantes et les combine à des fins de sécurité informatique.
+
+
+(slide 6/13) ---------- PHILOSOPHIE ------------------------
+Par défaut, un utilisateur a une "vie digitale" qui est très diversifiée, c'est à dire qu'il va utiliser son ordinateur pour faire du traitement de texte/travail et envoyer des emails, pour regarder du streaming ou télécharger des films/jeux, faire des paiements en ligne, ... Toute cette vie digitale repose sur un même système, or tout est accessible et connecté. Par exemple, un code malveillant qui serait executé depuis un jeu que j'ai téléchargé pourrait impacter le reste de mon système et donc mon espace de travail également, pour spammer ma liste de contact ou impacter mon espace de paiement en ligne en récupérant des codes de cartes enregistreées sur mon navigateur internet...
+
+La philosophie du projet Qubes OS est donc de permettre à l'utilisateur de scinder son espace de vie digitale, de le compartimenter en domaines selon ses besoins et de les exécuter dans des machines virtuelles différentes, isolées, qui n'auront pas d'accès direct les unes aux autres. On pourra alors définir des règles de sécurité plus ou moins strictes pour chacun des domaines, en fonction de la confiance qu'on leur accorde. Par exmple je sais qu'il y a plus de risque d'avoir un code malveillant depuis le domaine ou je compte télécharger mes jeux, je vais donc le cloisonner d'avantage.
+
+Si on revient sur notre exemple pour comprendre le fonctionnement haut-niveau de Qubes, l'idée serait donc ici de scinder mes 3 activitées et de les exécuter dans des VMs cloinsonnées, distinctes les unes des autres et qui n'auraient pas la possibilité de se corrompre les unes les autres. Dans ce cas-ci, le virus pourrait corrompre la VM à partir de laquelle le jeu a été téléchargé et c'est tout.
+Autrement dit avec cette approche d'isolement, on maintient le reste du système sain et sauf et on aurait qu'à redémarrer la VM qui est corrompue. Il est à noter que Qubes OS en lui même ne sera pas forcément plus sûr qu'un autre OS en ce sens qu'il n'empêcherait pas l'execution du code malveillant MAIS il évitera néanmoins sa propagation ce qui limitera donc l'impact d'une attaque et c'est tout l'intérêt de la  sécurité par l'isolement.
+
+On ne va pas forcément faire tourner une application par VM mais l'idée est bien de créer des domaines cohérents et de leur donner des accès à des services dont ils ont besoin et pas au reste du système.
+
+Ca c'est l'idée générale de Qubes. Maintenant on voir un peu plus en détails comment il y parvient au moyen des techniques de virtualisation.
+
+
+
+===================== VIRTUALISATION ==========================
+(slide 7/13) ------------- HYPERVISEUR XEN --------------------
+
+Qubes repose en grande partie sur la technologie Xen qui est un hyperviseur de type 1. 
+Autrement dit, c'est un gestionnaire de VMs qui s'installe au dessus de la couche matérielle et il fait tourner un OS privilégié, le Domaine 0, qui est utilisé pour contrôler les autres machines virtuelles (domaine user) qui elles, tournent comme si elles étaient installées sur des infrastructures physiques distinctes.
+
+Xen supporte deux types de virtualisation: 
+. La para-virtualisation et la virtualisation complète assistée par le matériel.
+
+Dans le premier cas, la para, l'OS invité a conscience d'être virtualisé. Il est modifié/son kernel est adapté avec des drivers qui lui pemettent de communiquer avec le dom0, de ce fait optimisé pour la virtualisation et plus légé. La communication avec les ressources matérielles se fait en passant par le dom0
+
+Contrairement à cela, la virtualisation complète assistée par le matériel, elle va permettre de faire tourner un OS invité qui n'est pas modifié et qui communiquera directement avec un matériel virtualisé. Pour cela, il est nécessaire d'avoir une technologie de virtualisation Input/Output Memory Management Unit (tel que Intel VT-d = Virtualization Technology for Directed I/O)  qui permette l'accès direct au matériel.
+
+On verra plus loin l'avantage de ces deux techniques.
+Ca c'est pour le coeur de Qubes, la gestion automatique des VMs, la création de l'isolement... Maintenant on va voir comment le système utilise ces VMs dans son architecture.
+
+
+(slide 8/13) ------------- TYPES DE VMs -----------------------------
+
+Le dom0 est l'OS privilégié de Xen comme on vient de le voir. C'est lui qui est responsable du lancement des autres machines virtuelles et de l'ordonnancement. C'est le coeur du système, s'il venait à être compromis alors le système entier serait foutu. C'est pourquoi, on limite ses fonctionnalités: par exemple, on ne lui donne pas accès aux ressources réseau, et on ne devrait jamais exécuter d'application utilisateur.
+
+%%----
+Les templateVMs sont les OS à proprement parlé. C'est là que sont installés les programmes MAIS ce n'est pas là qu'il sont exécutés!! En effet, on le verra juste après, le but d'une templateVM est de partager son système de fichier en lecture seule pour d'autres VMs. Pour rappel, le système de fichiers d'un OS correspond à l'organisation hiérachique de ses fichiers.
+
+%%----
+Les AppVMs, également appelées qubes, sont des machines virtuelles légères qui exécutent les programmes. Elles permettent de construire les domaines de sécurité que j'ai expliqué précédemment et qui servent à compartimenter la vie digitale de l'utilisateur. Chaque AppVM va donc permettre de faire tourner certains programmes selon les besoins en étant isolé du reste du système.
+
+Une AppVM est basée sur une templateVM c'est-à-dire qu'elle a un accès en lecture seule au système de fichiers de la template. C'est là un des points clés de la virtualisation dans Qubes, le fait que ces AppVMs sont construites "par dessus" les templateVMs. 
+
+On reviendra dessus dans un instant.
+
+%%---
+Les DisposableVMs ou machines virtuelles jetables sont des AppVMs temporaires qui sont destinées à un usage unique. Elles sont rapidement crées et détruites aussitôt que l'application est fermée. Autrement dit, elle ne garde en mémoire aucune donnée.
+
+%%---
+Les servicesVM ou SystemVM sont les machines destinées à founrnir un service spécifique à d'autres VM. Elles font partie des *drivers domaines* tel que le réseau, le stockage, ... qui ont besoin de pouvoir accéder à des ressources matérielles de façon non privilégiée via VT-d. Ce sont typiquement des fonctionnalités qui sont exportées du dom0 pour les mettre à charge de VMs isolées.
+
+
+%%---
+Les standalonesVMs sont des machines virtuelles à part entière, qui ne dépendent pas du système de fichier d'une autre machine et qui ne partage pas le leur à d'autres. Autrement dit, une standaloneVM n'est basée sur aucun template.
+
+
+(slide 9/13) ------------- MECANISMES DE TEMPLATES -----------------------
+
+Comme je le disais, le mécanisme de Machine virtuelles templates est un point clé dans la virtualisation du système.
+L'idée est qu'on a des machines virtuelles "applicatives", c'est-à-dire celles dans lesquelles seront exécutées les applications, et dont un système de fichiers racine est basé sur un template qui peut être partagé en lecture seule entre plusieurs machines applicatives.
+
+Ici par exemple on aurait une templateVM dont le système de fichier est construit à partir de la distribution Linux Fedora. Son système de fichier contiendrait les codes des différentes applications, des drivers, ... Cette machine on ne l'exécute que lorsqu'on a besoin d'installer des applications ou de les mettres à jour. 
+
+A côté, on a des machines virtuelles applicatives qui vont baser leur système de fichiers sur la template.
+
+En effet, puisque le système de fichier de la template est partagé entre toutes les AppVMs qui en dépendent, cela évite de devoir recopier tout un système de fichier pour chaque de ces VMs, ce qui rend le système et l'exécution plus légers.
+
+Puisque l'accès se fait en lecture seule, une AppVM ne pourra donc pas aller modifier d'elle même le système de fichiers. Ceci veut dire que si une AppVM est compromise, cela n'impacte pas le template et donc ça n'a pas d'effet sur les autres AppVMs. De plus, il suffit de redémarrer le qube compromis pour repartir sur un environnement propre.
+
+On peut faceliment créer une nouvelle AppVM sur base d'un template dont le système fichier existe déja.
+
+Lorsqu'une AppVM est lancée, elle monte le système de fichier de la template correspondante, en lecture seulement. Autrement dit on ne recopie pas à chaque fois tout le système de fichiers (donc les programmes..) lorsqu'on lance une nouvelle AppVM, ça représente un grand gain en terme de ressources.
+
+Ce mécanisme permet également d'avoir des mises à jours qui sont centralisées. Comme dit précédemment, les applications sont installées dans le template qui est commun au App. C'est donc beaucoup plus facile de maintenir à jour le système dans sa globalité que si chaque VM avait son propre système de fichiers.
+
+Finalement un qube n'a besoin que d'un espace de stockage minimum pour sauvergarder ses propres données. Les trois répertoires ici constituent en quelque sorte le système fichiers utilisateur qui permet d'avoir des données perstitantes à travers les re-démarrages successifs de la VM.
+Le fait de partager un système de fichiers permet d'économiser beaucoup d'espace car cela évite de devoir copier l'image complète de l'OS pour chaque VM.
+
+
+
+(slide 10/13) ----------- EXEMPLE MAIL ----------------------
+
+Voyons maintenant un petit exemple qui devrait permettre d'un peu mieux comprendre/visualiser l'interaction de différentes VMs et leur rôle -> isolement des tâches
+
+Ici au centre, nous avons une App VM dont le rôle est de supporter le client mail (thunderbird). Cette VM est issue d'un Template Debian qui ne possède aucun protocole réseau. Autrement dit, par défaut le template Debian et donc l'AppVM Email ne peuvent pas communiquer avec l'extérieur du système. C'est pourquoi, on va lier à cette AppVM les deux Apps systèmes, qui sont repectivement chargées des règles de parefeu et de la pile réseau.
+
+De l'autre côté, on peu voir "Admin", "Hyperviseur", le support de stockage et la VM de gestion de l'affichage qui sont indispensables au fonctionnement du système.
+
+Alors, supposons maintenant que l'on recoive un mail. Celui-ci passe par la carte réseau, est pris en charge par la VM "sys-net" et le parefeu pour finalement être disponible dans l'AppVM où on pourra le consulter via le client mail. 
+	Supposons également que ce mail est chiffré, nous avons donc besoin de notre clé privée pour le lire. Et ça c'est le rôle d'une VM "vault", qui n'a aucune interaction possible avec les autres VMs, elle est complètement cloisonnée, isolée. Son but est de stocker les secrets, par exemple avec un gestionnaire comme KeepassXC. On peut donc copier la clé la VM secret, et la coller dans la VM mail pour le déchiffrement.
+	Supposons également qu'il y ait un pdf en pièce jointe. Nous n'allons pas l'ouvrir dans notre VM mail, des fois qu'il contiendrait un malware mais nous allons plutôt utiliser pour cela une VM dite jetable, qui sera exécutée au moment où on ouvre le fichier et qui sera ensuite immédiatement détruitre lorsqu'on le fermera. Cela signifie que si jamais le pdf est accompagné d'un code malveillant, celui-ci sera exécuté uniquement dans notre VM jetable et il n'aura aucun moyen de se propager vers le reste du système. Lorsque la VM sera détruite, le malware disparaitra avec.
+
+On peut également constater que chacune des VMs dépend directement d'un template, qui est le Kernel adapté d'un OS. Ici par exemple, il s'agit de Debian, dans les autres cas c'est fedora.
+
+On voit donc bien comment le système est cloisonné, comment les différents types de VMs intéragissent.
+Cet exemple vous montre un peu les différents types de VMs et comment elles sont utilisées.
+
+En exportant les parties sensibles dans des VMs séparées et en limitant les fonctionnité/accès des VMs, on diminue les surfaces d'attaques du système.
+
+
+(slide 11/13)--------- AUTRES ASPEC NOTABLES ------------
+
+1. Il existe des différences techniques entre la séparation physique de plusieurs systèmes et la compartimentation logicielle, notamment en terme de communication. Dans le second cas, il s'agit d'une communication inter-VMs avec un partage de données via des drivers spécifiques plus légers (basés sur TCP/IP) et des technologies de partage de mémoire propres à Xen. Ceci est moins complexe que les drivers de réseaux complets (WiFi, DHCP, network stack...) uniquement disponibles dans les netVMs ce qui a pour conséquence de diminuer la surface d'attaque.
+
+2. Chaque AppVM possède un bloc mémoire dédié qui est géré par le domaine de stockage et qui possède un chiffrement propre à l’AppVM. Ainsi en cas de corruption du domaine, il n’est pas possible d’accéder aux données des autres AppVMs.
+
+3. La GUI VM permet un affichage unifié des différentes VMs pour donner l’illusion que les applications s’exécutent nativement sur le bureau.
+
+
+(slide 12/13)------ FAIBLESSES et ATTENTES SECURITE ------
+
+Nous n'avons pas encore parlé des inconvénients et des faiblesses de Qubes. Alors, peut-on dire qu'il s'agit OS "infaillible"? La réponse est NON.
+
+Comme le dit leur slogan: "Qubes est un système relativement sûr/sécurisé". En effet, les développeurs sont conscients qu'il est en pratique impossible d'avoir un système totalement sécurisé car le risque 0 n'existe pas --> certains disent que si un système est sûr à 99% alors il n'est pas sûr.
+
+* Il faut bien rappeler que Qubes un système qui dépend d'autres technologies, tel que l'hyperviseur Xen. De ce fait, si un jour on découvre une faille dans le code d'une de ces technologies, elle pourrait alors potentiellement être une menace pour Qubes également.
+Le système n'est donc pas épargné par certains types d'attaques visant par exemple:
+- les technologies de virtualisation au niveau du matériel
+- l'hyperviseur Xen
+- les logiciels et services utilisés par le système de virtualisation
+
+Les deux premières cibles sont en pratique très difficile à attaquer et à compromettre. De plus, une potentielle vulnérabilité dans Xen ne serait pas forcément domageable à qubes.
+
+Là où les efforts ont été placés et les précautions prises par les développeurs de Qubes, concerne les parties logicielles qui sont exploitées dans le processus de virtualisation. 
+
+Comme dit précédemment, le but va être de diminuer le plus possibles les surfaces d'attaques notamment en réduisant les fonctionnalités des VMs, en isolant les tâches.
+
+* De plus, rappelons qu'une application qui est exécutée dans une AppVM n'est pas plus sécurisée en elle-même que sur un autre OS et que l'utilisateur reste responsable des applications qu'il installe dans les templateVMs.
+
+* Qubes ne prévoit pas de sécurité par l'isolement au sein d'un même domaine.
+
+*J'ajouterais également encore trois points à souligner d'après mon retour d'expérience:
+
+1. Les ressources matérielles nécessaires. Etant donné le nombre de machines virtuelles qui tournent simultanément, le système est très gourmand. Malgré les optimisations qui sont faites pour réduire la complexité des VMs et le partage des ressources, il est important d'avoir beaucoup de RAM et de s'attendre à ce qu'il soit plus lent qu'un OS traditionnel, notamment lorsqu'on lance une application à partir d'une AppVM qui n'est pas encore en cours d'exécution.
+
+2 Il est également à noter que le système requiert des caractéristiques matérielles particulières, notamment les technologies de virtualisation des processeurs. Il n'est donc pas compatible avec tous les OS.
+
+3. La prise en main et la configuration. On est loin de l'usage d'un OS comme Windows ou un Linux plus classique. Ici, il faut se créer son environnement de travail, comprendre comment il fonctionne pour bien le configurer et il y a certaines habitudes à prendre, notamment si l'on veut copier/coller des infos depuis une VM vers une autre...
+
+
+
+(slide 13/13)========== CONCLUSION ===============
+Ici nous avons un usage de la virtualisation à des fins de  sécurité informatique. Il est à noter que la virtualisation n'est pas une solution en soi, son utilisation n'apporte pas automatiquement plus de  sécurité au système. C'est bien la façon dont elle est mise en pratique dans Qubes qui permet de repenser l'implémentation d'un système d'exploitation traditionnel et d'apporter ces mesures de  sécurité.

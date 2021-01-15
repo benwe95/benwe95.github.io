@@ -1,0 +1,43 @@
+:root {
+
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #3B4349;
+}
+
+.main-content{
+    margin-top: 100px;
+}
+
+.recommandations-container {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+h1, h2, h3, h4 {
+    //color: var(--text-color-emphasis);
+    color: #2E3C42;
+}
+
+@media all and (min-width: 960px){
+    .main-content{
+        margin-right: 15%;
+        margin-left: 15%;
+    }
+}

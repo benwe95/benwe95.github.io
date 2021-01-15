@@ -1,0 +1,20 @@
+<li class="reco-preview">
+    <div class="reco-preview-header">
+        <div class="reco-preview-category">
+            ({{reco.category}})
+        </div>
+        <div class="reco-header-title">
+            {% if reco.category=="livre" %}
+            <h2 class="reco-preview-title"><i>{{reco.title}}</i></h2>
+            <h3>{{reco.author}}, {{reco.datePublished}}</h3>
+            {% else %}
+            <h2 class="reco-preview-title">{{reco.title}}</h2>
+            {% endif %}
+        </div>
+
+    </div>
+    <div class="reco-preview-description">
+        {{reco.content}}
+    </div>
+    {% include meta.html reco=reco %}
+</li>

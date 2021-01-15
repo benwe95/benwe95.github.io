@@ -1,0 +1,39 @@
+---
+permalink: /recommandations
+---
+
+<ul class="recommandations-container">
+    {% for reco in site.recommandations limit:10 %}
+    <li class="recommandation-item">
+        {% include recoCard.html %}
+    </li>
+    {% endfor %}
+</ul>
+
+<!--
+
+Ci-dessous une liste de ressources (livres, conférences, films, sites, ...) en lien
+avec l'informatique que je recommande fortement:
+
+- The art of Invisibility, Kevin Mitnick
+- Mémoires Vives, Edward Snowden
+- Cyberstructure, Stephane Bortzmane
+- Conférences de Benjamin Bayart sur Internet (3 parties: son fonctionnement, les applications et enjeux politiques)
+- Privacy Tools
+- Yubikey
+- histoire des codes secrets
+- hackers,
+- les fondements de l'informatique Hugues bersini
+- Qubes OS (+présentation)
+- Tails
+- OpenGPG
+- Wireshark
+- Cisco Packet Tracer
+- KeepassXC
+
+livres
+outils
+sites
+videos
+
+-->

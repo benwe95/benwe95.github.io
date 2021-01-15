@@ -1,0 +1,95 @@
+#navbar{
+    --navbar-bg-color: hsl(0, 0%, 15%);
+    --navbar-text-color: hsl(0, 0%, 85%);
+    --navbar-text-color-focus: white;
+    --navbar-bg-contrast: hsl(0, 0%, 25%);
+    --navbar-height: 64px;
+
+    position: fixed;
+    top:0 ;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    z-index: 9999;
+    background-color: var(--navbar-bg-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-container{
+    height: 100%;
+}
+
+.navbar-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    height: 100%;
+    margin: 0 15px;
+}
+
+.navbar-logo {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.navbar-menu li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--navbar-text-color);
+    text-transform: uppercase;
+    transition: color 0.2s ease-in-out;
+}
+
+.navbar-toggle {
+    order: 1;
+    border: 2px;
+    color: white;
+}
+
+.navbar-item {
+    order: 2;
+    width: 100%;
+    background-color: var(--navbar-bg-color);
+    text-align: center;
+    display: none;
+}
+
+.active .navbar-item {
+    display: block;
+}
+
+.navbar-link:focus,
+.navbar-link:hover {
+    color: var(--navbar-text-color-focus);
+}
+
+
+
+@media all and (min-width: 960px) {
+    .navbar-menu {
+        overflow: hidden;
+        flex-wrap: nowrap;
+    }
+
+    .navbar-logo{
+        flex-grow: 1;
+    }
+
+    .navbar-item {
+        display: block;
+        width: auto;
+        
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+}
+
+#navbar-current-link {
+    text-decoration: underline;
+}

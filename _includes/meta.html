@@ -1,0 +1,20 @@
+<ul class="reco-meta">
+    <!--{% if reco.category %}
+    <li class="meta reco-category">{{reco.category}}</li>
+    {% endif %}
+
+    {% if reco.tags %}-->
+    <li>
+        <ul class="meta reco-meta-tags">
+            {% for tag in reco.tags %}
+            <li class="reco-meta-tag-wrapper tag">
+                <!--<a href="/tag/{{tag}}" class="tag reco-meta-tag">
+                    {{tag}}
+                </a>-->
+                {{tag}}
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endif %}
+</ul>

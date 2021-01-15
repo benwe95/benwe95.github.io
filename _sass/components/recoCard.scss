@@ -1,0 +1,39 @@
+.reco-preview {
+    margin-bottom: 20px;
+}
+
+.reco-preview-header {
+    display: flex;
+    align-items: flex-end;
+}
+
+.reco-preview-category {
+    margin-right: 0.5rem;
+}
+
+.reco-title {
+    font-size: 1.8rem;
+}
+
+.reco-header-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.reco-preview-description {
+    margin-bottom: 0.8rem;
+    //color: var(--text-color-normal);
+    color: #3B4349;
+}
+
+.reco-tags-container {
+    display: flex;
+    list-style-type: none;
+}
+
+.reco-tag-item {
+    margin: 0 3px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    background-color: var(--tag-color-background);
+}

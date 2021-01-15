@@ -1,4 +1,10 @@
 ---
-permalink: /projets
+permalink: /projects
 ---
-Projets
+<h1>Mes projets</h1>
+
+<ul class="projects-grid">
+    {% for project in site.projects %}
+    <li>{% include projectCard.html project=project %}</li>
+    {% endfor %}
+</ul>

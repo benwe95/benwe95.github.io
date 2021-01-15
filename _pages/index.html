@@ -2,4 +2,95 @@
 permalink: /
 ---
 
-<h1 id="html-id">Coming Soon!</h1>
+<div class="home-section">
+    <h1 class="home-title">Je me présente!</h1>
+
+    <div class="home-intro">
+        <div class="intro-description-container">
+            <div class="intro-description">
+                <p>Je m'appelle Benoît, je suis ingénieur industriel en informatique, diplômé en 2020.
+                    Je m'intéresse essentiellement à la cybersécurité, aux réseaux, ainsi qu'à la technologie
+                    blockchain.
+                </p>
+                <p>
+                    Sur ce site vous trouverez quelques uns de mes <a class="link" href="/projects">projets
+                        personnels et académiques</a> ainsi que des <a class="link"
+                        href="/recommandations">recommandations</a> de
+                    ressources (livres, vidéos, outils,...) en rapport avec l'informatique.</a>
+                </p>
+            </div>
+            <div class="contact intro-contact">
+                <p>Vous pouvez me contactez via les liens suivants:</p>
+                <ul class="contact-container">
+                    <li class="contact-item">
+                        <a href="https://www.linkedin.com/in/benoitwe">
+                            <img class="contact-logo" alt="Linkedin" src="/assets/images/logo-linkedin.png">
+                        </a>
+                        <div class="contact-info">benoitwe</div>
+                    </li>
+                    <li class="contact-item">
+                        <a href="https://www.github.com/benwe95">
+                            <img class="contact-logo" alt="Github" src="/assets/images/logo-github.png">
+                        </a>
+                        <div class="contact-info">benwe95</div>
+                    </li>
+                    <li class="contact-item">
+                        <a href="javascript:void(0)">
+                            <img class="contact-logo" alt="Mail" src="/assets/images/logo-mail.png">
+                        </a>
+                        <div class="contact-info">
+                            contact@benoitwery.com
+                            <a class="link" href="/assets/files/gpg-key.asc">Clé publique OpenPGP</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="intro-image-container">
+            <img alt="photo profil" class="intro-picture" src="/assets/images/profil.jpeg" />
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="home-section">
+    <h1 class="home-title">Projets et Rédactions</h1>
+    <div class="section-description">
+        Ci-dessous une liste de projets personnels et de travaux académiques que j'ai particulièrement apprécié
+        réaliser.
+    </div>
+    <div class="section-content">
+
+        <ul class="projects-grid">
+            {% for project in site.projects %}
+            <li>{% include projectCard.html project=project %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a class="more-link" href="/projects">Plus de projets</a>
+
+</div>
+
+<div class="home-section">
+    <h1 class="home-title">Recommandations récentes</h1>
+    <div class="section-description">
+
+        J'aime passer une partie de mon temps libre à découvrir et approfondir mes connaissances sur divers
+        sujets
+        notamment
+        liés à l'informatique, comme l'historique, le fonctionnement et l'évolution d Internet, la Blockchain
+        <br />
+        Ci-dessous, vous trouverez une liste non exhaustives de ressources que je recommande vivements
+    </div>
+    <div class="section-content">
+        <ul class="recommandations-container">
+            {% for reco in site.recommandations limit:10 %}
+            <li class="recommandation-item">
+                {% include recoCard.html recommandation=reco %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a class="more-link" href="/recommandations">Plus de recommandations</a>
+</div>
