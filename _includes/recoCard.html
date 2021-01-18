@@ -6,7 +6,11 @@
         <div class="reco-header-title">
             {% if reco.category=="livre" %}
             <h2 class="reco-preview-title"><i>{{reco.title}}</i></h2>
-            <h3>{{reco.author}}, {{reco.datePublished}}</h3>
+            <h3>
+                {% for author in reco.authors %}
+                {{author}},
+                {% endfor %}
+                {{reco.datePublished}}</h3>
             {% else %}
             <h2 class="reco-preview-title">{{reco.title}}</h2>
             {% endif %}

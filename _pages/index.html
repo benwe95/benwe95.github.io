@@ -85,7 +85,8 @@ permalink: /
     </div>
     <div class="section-content">
         <ul class="recommandations-container">
-            {% for reco in site.recommandations limit:10 %}
+            {% assign recoSorted = site.recommandations | reverse %}
+            {% for reco in recoSorted limit:5 %}
             <li class="recommandation-item">
                 {% include recoCard.html recommandation=reco %}
             </li>
