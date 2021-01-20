@@ -22,9 +22,9 @@ L'utilisateur peut alors compartimenter sa vie digitale en construisant des **do
 
 ## Avis personnel
 
-J'ai pris beaucoup de plaisir à me plonger dans la documentation de Qubes et à faire les liens entre les aspects de la virtualisation et de la sécurité informatique.
+J'ai pris beaucoup de plaisir à me plonger dans la documentation de Qubes et à faire les liens entre les aspects de la virtualisation et de la sécurité informatique. A ce sujet, on notera que l'utilisation de la virtualisation n'est pas une solution miracle pour répondre aux problèmes de sécurité des OS mais que c'est bien ici la façon dont elle est utilisée (Hyperviseur Xen, isolement des VMs, mécanismes de templates et de domaines de sécurité, ...) qui rend le système plus sûr dans sa globalité.
 
-Qubes est un projet remarquable qui vaut la peine de s'attarder à son fonctionnement. Il n'est comparable à aucun autre système d'exploitation.
+Qubes est donc un projet remarquable qui vaut la peine de s'attarder sur son fonctionnement. Il n'est comparable à aucun autre système d'exploitation et, malgré sa prise en main plus complexe qu'un OS classique, il conviendra aux utilisateurs dont les besoins en terme de sécurité sont importants.
 
 ## Ressources
 
