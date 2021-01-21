@@ -11,13 +11,24 @@
     margin-right: 0.5rem;
 }
 
-.reco-title {
-    font-size: 1.8rem;
-}
 
 .reco-header-title {
     display: flex;
     flex-direction: column;
+}
+
+.reco-preview-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.reco-preview-title{
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+.reco-book-subtitle {
+    font-size: 1rem
 }
 
 .reco-preview-description {

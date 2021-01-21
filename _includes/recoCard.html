@@ -5,7 +5,17 @@
         </div>
         <div class="reco-header-title">
             {% if reco.category=="livre" %}
-            <h2 class="reco-preview-title"><i>{{reco.title}}</i></h2>
+            <h2 class="reco-preview-title">
+                <div class="reco-book-title">
+                    <i>{{reco.title}}</i>
+                </div>
+                {% if reco.subtitle %}
+                <div class="reco-book-subtitle">
+                    <i> - {{reco.subtitle}}</i>
+                </div>
+                {% endif %}
+                </i>
+            </h2>
             <h3>
                 {% for author in reco.authors %}
                 {{author}},

@@ -1,5 +1,6 @@
 ---
-title: Cyberstructure - L'Internet, un espace politique
+title: Cyberstructure
+subtitle: L'Internet, un espace politique
 authors: [Stéphane Bortzmeyer]
 datePublished: 2018
 date: 2021-01-17 00:00:00 +0100
