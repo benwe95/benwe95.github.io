@@ -4,9 +4,8 @@ permalink: /recommandations
 
 <ul class="recommandations-container">
     {% assign recoSorted = site.recommandations | reverse %}
-    {% for reco in recoSorted %} <li class="recommandation-item">
-        {% include recoCard.html %}
-    </li>
+    {% for reco in recoSorted %}
+    {% include recoCard.html %}
     {% endfor %}
 </ul>
 
@@ -17,14 +16,10 @@ avec l'informatique que je recommande fortement:
 
 - Mémoires Vives, Edward Snowden
 - Conférences de Benjamin Bayart sur Internet (3 parties: son fonctionnement, les applications et enjeux politiques)
-- histoire des codes secrets
-- hackers,
 - les fondements de l'informatique Hugues bersini
 - Qubes OS (+présentation)
-- Tails
 - OpenGPG
 - Wireshark
-- Cisco Packet Tracer
 - les pirates de la silicon valley
 
 livres
